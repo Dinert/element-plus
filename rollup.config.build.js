@@ -49,7 +49,6 @@ export default{
     commonjs(),
     resolve(),
     postcss({
-      modules: true,
       plugins: [
         autoprefixer(),
         cssnano()
@@ -67,6 +66,7 @@ export default{
     terser()
   ],
   external: [  //外部库， 使用'umd'文件时需要先引入这个外部库
-  'vue'
+  'vue',
+  'element-plus'
   ]
 }

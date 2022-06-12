@@ -1,6 +1,8 @@
 <script setup>
 import RecuveTableColumn from './recuve-table-column.vue'
 import { ref, computed } from 'vue'
+import { ElTable, ElButton, ElPopover, ElCheckbox, ElCheckboxGroup, ElButtonGroup} from 'element-plus'
+import 'element-plus/theme-chalk/src/index.scss'
 const props = defineProps({
   table: {
     type: Object,
@@ -155,6 +157,7 @@ getClassfiyData()
 </template>
 
 <style lang="scss" scoped>
+
 .d-table {
   background-color: var(--el-bg-color);
   border-radius: var(--el-bg-radius);
