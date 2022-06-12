@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue3 + element-plus</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body,
+    #app {
+      height: 100%;
+      width: 100%;
+    }
+
+    ul li {
+      list-style: none;
+    }
+
+    .ali-icon {
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.15em;
+      fill: currentColor;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <d-table v-bind="{tableColumn}"></d-table>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.2.36/dist/vue.global.js"></script>
+<script src="https://unpkg.com/element-plus"></script>
+<script src="https://unpkg.com/element-plus@2.2.5/dist/locale/zh-cn.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<script src="https://at.alicdn.com/t/font_3370983_ozossfu4xp.js"></script>
+<script src="https://at.alicdn.com/t/font_3373809_s6055kmhlcp.js"></script>
+<script src="./dist/lib-umd.js"></script>
+
+<script>
+  const { createApp } = Vue;
+  const app = createApp({
+    data() {
+      return {
+        tableColumn: [
+          {
+            prop: 'type',
+            label: '窗口类型'
+          },
+          {
+            prop: 'name',
+            label: '姓名'
+          },
+          {
+            prop: 'code',
+            label: '工号'
+          },
+          {
+            prop: 'department',
+            label: '部门'
+          },
+          {
+            prop: 'enable',
+            label: '大屏显示'
+          }
+        ]
+      }
+    },
+    components: {
+      'DTable': window['dinert-element-plus'].DTable
+    },
+    methods: {
+      configCallback() {
+      }
+    }
+  })
+  app.use(ElementPlus, {
+    locale: ElementPlusLocaleZhCn,
+  })
+  app.mount("#app");
+</script>
+
+</html>
