@@ -20,6 +20,10 @@
       width: 100%;
     }
 
+    #app>* {
+      height: 100%;
+    }
+
     ul li {
       list-style: none;
     }
@@ -36,7 +40,8 @@
 
 <body>
   <div id="app">
-    <d-table v-bind="{tableColumn}"></d-table>
+    <!-- <d-table v-bind="{tableColumn}"></d-table> -->
+    <table-page v-bind="{formItem, tableColumn}" @search="search"></table-page>
   </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue@3.2.36/dist/vue.global.js"></script>
@@ -73,14 +78,52 @@
             prop: 'enable',
             label: '大屏显示'
           }
-        ]
+        ],
+        formItem: {
+          type: {
+            type: 'select',
+            label: '窗口类型',
+            options: [
+              { value: '一口受理', label: '一口受理' },
+              { value: '综合窗口', label: '综合窗口' },
+              { value: '企业帮办', label: '企业帮办' },
+              { value: '专窗', label: '专窗' },
+              { value: '咨询台', label: '咨询台' },
+            ],
+          },
+          name: {
+            type: 'input',
+            label: '姓名',
+          },
+          department: {
+            type: 'input',
+            label: '部门',
+          },
+          enable: {
+            type: 'select',
+            label: '大屏显示',
+            options: [
+              { value: true, label: '显示' },
+              { value: false, label: '隐藏' },
+            ]
+          }
+        }
       }
     },
-    components: {
-      'DTable': window['dinert-element-plus'].DTable
+    computed: {
+      formValue() {
+        return window['dinert-element-plus'].filterNullStrUndefind(window['dinert-element-plus'].getFormValue(this.formItem))
+      }
     },
     methods: {
-      configCallback() {
+    },
+    components: {
+      'DTable': window['dinert-element-plus'].DTable,
+      TablePage: window['dinert-element-plus'].TablePage
+    },
+    methods: {
+      search(params) {
+        console.log(params, 'paramsssssssssssss')
       }
     }
   })

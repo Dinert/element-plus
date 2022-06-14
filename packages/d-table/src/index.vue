@@ -1,6 +1,5 @@
 <script setup>
 import RecuveTableColumn from './recuve-table-column.vue'
-import { ref, computed } from 'vue'
 const props = defineProps({
   table: {
     type: Object,
@@ -163,7 +162,6 @@ getClassfiyData()
   flex-direction: column;
   overflow: auto;
   box-sizing: border-box;
-  height: 100%;
 
   .d-table-header {
     text-align: right;

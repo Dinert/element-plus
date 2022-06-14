@@ -1,5 +1,4 @@
 <script setup>
-import { ElTableColumn } from 'element-plus'
 defineProps({
   tableColumn: {
     type: Array,
