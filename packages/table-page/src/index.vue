@@ -99,12 +99,12 @@ const currentChange = (value) => {
         <el-button type="default" @click="reset(formValue, defaultValue, search)">重置</el-button>
       </template>
     </d-form>
-    <d-table v-bind="{ table, tableColumn, pagination }" v-on="{
+    <d-table v-bind="{ table, tableColumn, pagination, tableSlot: false }" v-on="{
       sizeChange,
       currentChange
     }">
-      <template v-for="column in tableColumn" :key="column.prop" v-slot:[columnProp(column.prop)]="scope">
-        <slot :name="columnProp(column.prop)" v-bind="scope"></slot>
+      <template #default="scope">
+        <slot v-bind="scope" :name="columnProp(scope.prop)"></slot>
       </template>
       <template #tableColumnAfter>
         <slot name="tableColumnAfter"></slot>

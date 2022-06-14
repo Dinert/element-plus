@@ -7,7 +7,10 @@ const props = defineProps({
       on: {}
     })
   },
-
+  tableSlot: {
+    type: Boolean,
+    default: true
+  },
   // 表格头控制栏
   showHeader: {
     type: Boolean,
@@ -124,15 +127,28 @@ getClassfiyData()
         showHeader: true,
         ...table
       }" v-on="{ ...table.on }">
-        <recuve-table-column :tableColumn="tableColumns">
-          <template #default="scope">
-            <slot :name="'column_' + scope.prop" v-bind="scope">
-            </slot>
-          </template>
-          <template #tableColumnAfter>
-            <slot name="tableColumnAfter"></slot>
-          </template>
-        </recuve-table-column>
+        <template v-if="tableSlot">
+          <recuve-table-column :tableColumn="tableColumns">
+            <template #default="scope">
+              <slot v-bind="scope" :name="columnProp(scope.prop)"></slot>
+            </template>
+
+            <template #tableColumnAfter>
+              <slot name="tableColumnAfter"></slot>
+            </template>
+          </recuve-table-column>
+        </template>
+        <template v-else>
+          <recuve-table-column :tableColumn="tableColumns">
+            <template #default="scope">
+              <slot v-bind="scope"></slot>
+            </template>
+
+            <template #tableColumnAfter>
+              <slot name="tableColumnAfter"></slot>
+            </template>
+          </recuve-table-column>
+        </template>
       </el-table>
     </div>
     <div class="d-table-footer" v-if="showFooter">

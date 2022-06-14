@@ -13,6 +13,14 @@ defineProps({
       <slot v-bind="scope" :prop="column.prop">
         {{ scope.row[column.prop] }}
       </slot>
+      <template v-if="column.children && column.children.length">
+        <!-- 式 -->
+        <recuve-table-column :tableColumn="column.children" :key="column.prop" :name="column.prop">
+          <template #default="scope">
+            <slot v-bind="scope">{{scope.row[scope.prop]}}</slot>
+          </template>
+        </recuve-table-column>
+      </template>
     </template>
   </el-table-column>
   <slot name="tableColumnAfter"></slot>
