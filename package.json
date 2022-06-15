@@ -1,9 +1,10 @@
 {
   "name": "@dinert/element-plus",
-  "version": "0.3.6-beta.06",
+  "version": "0.3.6-beta.07",
   "description": "基于vue3封装的element-plus包",
-  "main": "dist/lib-umd.js",
-  "module": "dist/lib-es.js",
+  "main": "dist/bundle.cjs.js",
+  "module": "dist/bundle.esm.js",
+  "browser": "dist/bundle.umd.js",
   "scripts": {
     "build": "rollup --config rollup.config.build.js",
     "dev": "rollup --config rollup.config.dev.js -w"

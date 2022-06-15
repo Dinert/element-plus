@@ -9,6 +9,7 @@ import { terser } from 'rollup-plugin-terser'
 import replace from 'rollup-plugin-replace'
 import vue from 'rollup-plugin-vue'
 import AutoImport from 'unplugin-auto-import/rollup'
+import pkg from './package.json'
 
 const env = process.env.NODE_ENV
 const path = require('path')
@@ -17,7 +18,7 @@ export default{
   input: './src/index.js',
   output: [
     {
-      file: './dist/lib-umd.js',
+      file: pkg.browser,
       format: 'umd',
       name: 'dinert-element-plus',
       sourcemap: true,
@@ -26,12 +27,12 @@ export default{
       }
     },
     {
-      file: './dist/lib-es.js',
-      format: 'es',
+      file: pkg.main,
+      format: 'esm',
       sourcemap: true
     },
     {
-      file: './dist/lib-cjs.js',
+      file: pkg.module,
       format: 'cjs',
       sourcemap: true
     }
