@@ -219,6 +219,8 @@ defineExpose({
   .el-form-right {
     margin-left: 20px;
     min-width: 150px;
+    display: flex;
+    justify-content: flex-end;
 
     .el-form-right-operation {
       &.el-button.is-text {

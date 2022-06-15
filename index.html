@@ -43,6 +43,9 @@
     <!-- <d-table v-bind="{tableColumn}"></d-table> -->
     <table-page v-bind="{formItem, tableColumn, table: {data: tableData}}" @search="search">
       <template #column_type>{{'aaaaaaaaaa'}}</template>
+      <template #header-left>
+        aaa
+      </template>
     </table-page>
   </div>
 </body>
