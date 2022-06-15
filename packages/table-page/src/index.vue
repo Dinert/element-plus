@@ -103,6 +103,9 @@ const currentChange = (value) => {
       sizeChange,
       currentChange
     }">
+      <template #header-left>
+        <slot name="header-left"></slot>
+      </template>
       <template #default="scope">
         <slot v-bind="scope" :name="columnProp(scope.prop)"></slot>
       </template>
