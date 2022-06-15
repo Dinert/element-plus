@@ -67,6 +67,12 @@ const allShow = () => {
   getClassfiyData()
 }
 
+
+// column的prop
+const columnProp = (prop) => {
+  return 'column_' + prop
+}
+
 // sizeChange
 const sizeChange = (value) => {
   emit('sizeChange', value)

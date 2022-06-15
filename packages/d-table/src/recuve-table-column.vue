@@ -5,17 +5,26 @@ defineProps({
     default: () => []
   }
 })
+const filterColumn = (column) =>{
+  const obj = {}
+  for(const prop in column) {
+    if(prop !== 'children') {
+      obj[prop] = column[prop]
+    }
+  }
+  return obj
+}
 </script>
 
 <template>
-  <el-table-column v-for="column in tableColumn" :key="column.prop" :showOverflowTooltip="true" v-bind="column">
+  <el-table-column v-for="column in tableColumn" :key="column.prop" :showOverflowTooltip="true" v-bind="filterColumn(column)">
     <template #default="scope">
       <slot v-bind="scope" :prop="column.prop">
         {{ scope.row[column.prop] }}
       </slot>
       <template v-if="column.children && column.children.length">
         <!-- 式 -->
-        <recuve-table-column :tableColumn="column.children" :key="column.prop" :name="column.prop">
+        <recuve-table-column :tableColumn="column.children" :key="column.prop">
           <template #default="scope">
             <slot v-bind="scope">{{scope.row[scope.prop]}}</slot>
           </template>
