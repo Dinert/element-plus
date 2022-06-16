@@ -21,6 +21,7 @@ export default{
       file: pkg.browser,
       format: 'umd',
       name: 'dinert-element-plus',
+      inlineDynamicImports: true,
       sourcemap: true,
       globals: {
         vue: 'Vue'
@@ -29,11 +30,13 @@ export default{
     {
       file: pkg.main,
       format: 'esm',
+      inlineDynamicImports: true,
       sourcemap: true
     },
     {
       file: pkg.module,
       format: 'cjs',
+      inlineDynamicImports: true,
       sourcemap: true
     }
   ],

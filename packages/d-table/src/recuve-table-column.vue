@@ -19,14 +19,14 @@ const filterColumn = (column) =>{
 <template>
   <el-table-column v-for="column in tableColumn" :key="column.prop" :showOverflowTooltip="true" v-bind="filterColumn(column)">
     <template #default="scope">
-      <slot v-bind="scope" :prop="column.prop">
+      <slot v-bind="scope" :data="column" :prop="column.prop" >
         {{ scope.row[column.prop] }}
       </slot>
       <template v-if="column.children && column.children.length">
         <!-- 式 -->
         <recuve-table-column :tableColumn="column.children" :key="column.prop">
           <template #default="scope">
-            <slot v-bind="scope">{{scope.row[scope.prop]}}</slot>
+            <slot v-bind="scope"></slot>
           </template>
         </recuve-table-column>
       </template>
