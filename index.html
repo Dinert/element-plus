@@ -41,12 +41,12 @@
 <body>
   <div id="app">
     <!-- <d-table v-bind="{tableColumn}"></d-table> -->
-    <table-page v-bind="{formItem, tableColumn, table: {data: tableData}}" @search="search">
+    <d-table-page v-bind="{formItem, tableColumn, table: {data: tableData}}" @search="search">
       <template #column_type>{{'aaaaaaaaaa'}}</template>
       <template #header-left>
         aaa
       </template>
-    </table-page>
+    </d-table-page>
   </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue@3.2.36/dist/vue.global.js"></script>
@@ -147,7 +147,7 @@
     },
     components: {
       'DTable': window['dinert-element-plus'].DTable,
-      TablePage: window['dinert-element-plus'].TablePage
+      DTablePage: window['dinert-element-plus'].DTablePage
     },
     methods: {
       search(params) {
