@@ -3,7 +3,7 @@ import { firstUpperCase } from '@/utils/tools'
 import useWindowResize from '@/hook/useWindowResize'
 
 // props
-defineProps({
+const props = defineProps({
   ref,
   formItem: {
     type: Object,
@@ -45,7 +45,7 @@ defineProps({
 // data
 const formRef = ref(null)
 const setFormArr = []
-const elFormHeight = ref(60)
+const elFormHeight = ref(props.form.height || 62)
 const isArrow = ref(false) // 是否显示展示操作
 const packUp = ref(true)
 
@@ -79,9 +79,18 @@ const setForm = (el) => {
   setFormArr.push(el)
 }
 
-// label的tooltip
-const isDisabledLabel = (label) => {
-  return !(label.length >= 5)
+// 显示label的tooltip
+const labelMounseEnter = (index, form) => {
+  const labelEl = setFormArr[index].$el.querySelector('.el-form-item__label')
+  const tooltipEl = setFormArr[index].$el.querySelector('.label-tooltip')
+  const labelMaxWidth = parseInt(window.getComputedStyle(labelEl, null).getPropertyValue('max-width'))
+  const tooltipWidth = parseInt(window.getComputedStyle(tooltipEl, null).getPropertyValue('width'))
+  if(tooltipWidth > labelMaxWidth ) {
+    form.labelTooltip = false
+  }else {
+    form.labelTooltip = true
+
+  }
 }
 
 // 鼠标移入显示tooltip
@@ -129,12 +138,13 @@ defineExpose({
           ref: setForm,
         }">
           <template #label>
+            <span class="label-tooltip">{{ item['label'] }}</span>
             <el-tooltip v-bind="{
               content: item['label'],
               placement: 'top',
-              disabled: isDisabledLabel(item.label)
+              disabled: item.labelTooltip
             }">
-              {{ item['label'] }}
+            <span class="label-text" @mouseenter="labelMounseEnter(index, item)">{{ item['label'] }}</span>
             </el-tooltip>
           </template>
           <el-tooltip v-bind="{
@@ -234,19 +244,19 @@ defineExpose({
     width: 100%;
     margin-bottom: 18px;
 
-    ::v-deep(.temp-tooltip) {
+    &::v-deep(.temp-tooltip) {
       display: block;
       position: absolute;
       left: 999999999;
       z-index: -9999;
     }
 
-    ::v-deep(.el-tooltip__trigger) {
+    &::v-deep(.el-tooltip__trigger) {
       width: 100%;
     }
 
 
-    ::v-deep(.el-date-editor) {
+    &::v-deep(.el-date-editor) {
       width: 100%;
 
       .el-input__wrapper {
@@ -257,17 +267,29 @@ defineExpose({
 
 
 
-    ::v-deep(.el-input__inner) {
+    &::v-deep(.el-input__inner) {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
 
-    ::v-deep(.el-form-item__label) {
+    &::v-deep(.el-form-item__label) {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       max-width: 80px;
+    }
+    &::v-deep(.label-tooltip){
+      position: absolute;
+      left: -99999999999px;
+      z-index: 9999999999;
+    }
+
+    &::v-deep(.el-tooltip__trigger) {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
 
