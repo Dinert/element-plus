@@ -15,9 +15,6 @@ const filterColumn = (column) => {
   return obj
 }
 
-const aaa = (scope) => {
-  console.log(scope, 'aaaaaaaaaaaaaaaa')
-}
 </script>
 
 <template>
