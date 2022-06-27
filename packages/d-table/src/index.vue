@@ -4,7 +4,8 @@ const props = defineProps({
   table: {
     type: Object,
     default: () => ({
-      on: {}
+      on: {},
+      tableColumn: []
     })
   },
   tableSlot: {
@@ -15,12 +16,6 @@ const props = defineProps({
   showHeader: {
     type: Boolean,
     default: true
-  },
-
-  // table-column的数据
-  tableColumn: {
-    type: Array,
-    default: () => []
   },
 
   // 表格尾部
@@ -49,7 +44,7 @@ const classfiyData = ref([])
 // computed
 // 过滤table的数据
 const tableColumns = computed(() => {
-  return props.tableColumn.filter(item => {
+  return props.table.tableColumn.filter(item => {
     if (classfiyData.value.includes(item.label)) {
       return item
     }
@@ -57,7 +52,7 @@ const tableColumns = computed(() => {
 })
 
 const isAllData = computed(() => {
-  return props.tableColumn.length === tableColumns.value.length
+  return props.table.tableColumn.length === tableColumns.value.length
 })
 
 // methods
@@ -85,7 +80,7 @@ const currentChange = (value) => {
 
 // 分类显示
 const getClassfiyData = () => {
-  for (const prop of props.tableColumn) {
+  for (const prop of props.table.tableColumn) {
     classfiyData.value.push(prop.label)
   }
 }
@@ -114,7 +109,7 @@ getClassfiyData()
               </el-button>
             </template>
             <ul class="el-popover-classify">
-              <li v-for="column in tableColumn" :key="column.prop">
+              <li v-for="column in table.tableColumn" :key="column.prop">
                 <el-checkbox-group v-model="classfiyData">
                   <el-checkbox :label="column.label" :name="column.prop" :disabled="column.disabled" />
                 </el-checkbox-group>
@@ -138,20 +133,12 @@ getClassfiyData()
             <template #default="scope">
               <slot v-bind="scope" :name="columnProp(scope.prop)"></slot>
             </template>
-
-            <template #tableColumnAfter>
-              <slot name="tableColumnAfter"></slot>
-            </template>
           </recuve-table-column>
         </template>
         <template v-else>
           <recuve-table-column :tableColumn="tableColumns">
             <template #default="scope">
               <slot v-bind="scope"></slot>
-            </template>
-
-            <template #tableColumnAfter>
-              <slot name="tableColumnAfter"></slot>
             </template>
           </recuve-table-column>
         </template>

@@ -5,23 +5,30 @@ defineProps({
     default: () => []
   }
 })
-const filterColumn = (column) =>{
+const filterColumn = (column) => {
   const obj = {}
-  for(const prop in column) {
-    if(prop !== 'children') {
+  for (const prop in column) {
+    if (prop !== 'children') {
       obj[prop] = column[prop]
     }
   }
   return obj
 }
+
+const aaa = (scope) => {
+  console.log(scope, 'aaaaaaaaaaaaaaaa')
+}
 </script>
 
 <template>
-  <el-table-column v-for="column in tableColumn" :key="column.prop" :showOverflowTooltip="true" v-bind="filterColumn(column)">
+  <el-table-column v-for="column in tableColumn" :key="column.prop" :showOverflowTooltip="true"
+    v-bind="filterColumn(column)">
     <template #default="scope">
-      <slot v-bind="scope" :data="column" :prop="column.prop" >
-        {{ scope.row[column.prop] }}
-      </slot>
+      <template v-if="!['index', 'selection'].includes(column.type)">
+        <slot v-bind="scope" :data="column" :prop="column.prop">
+          {{ scope.row[column.prop] }}
+        </slot>
+      </template>
       <template v-if="column.children && column.children.length">
         <!-- 式 -->
         <recuve-table-column :tableColumn="column.children" :key="column.prop">
@@ -32,7 +39,6 @@ const filterColumn = (column) =>{
       </template>
     </template>
   </el-table-column>
-  <slot name="tableColumnAfter"></slot>
 </template>
 
 <style lang="scss" scoped>

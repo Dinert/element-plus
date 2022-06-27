@@ -109,7 +109,7 @@ const mouseEnter = (index, form) => {
 // 获取显示的tooltip值
 const getTooltipValue = (value, form) => {
   const type = form.type
-  const options = form.options
+  const options = form.options && form.options.options
   if (['input'].includes(type)) {
     return value
   } else if (['select'].includes(type)) {
@@ -134,8 +134,8 @@ defineExpose({
         <el-form-item v-bind="{
           key: key,
           prop: key,
-          label: item.label,
           ref: setForm,
+          ...item
         }">
           <template #label>
             <span class="label-tooltip">{{ item['label'] }}</span>
@@ -155,14 +155,11 @@ defineExpose({
             <div @mouseenter="mouseEnter(index, item)">
               <span class="temp-tooltip">{{ getTooltipValue(form.model[key], item) }}</span>
               <template v-if="['input'].includes(item.type)">
-                <el-input clearable v-model="form.model[key]" v-bind="item" v-on="{ ...item.on }"></el-input>
+                <el-input clearable v-model="form.model[key]" v-bind="{placeholder: '请输入' + item.label, ...item.options}" v-on="{ ...item.on }"></el-input>
               </template>
               <template v-else-if="['select'].includes(item.type)">
-                <el-select clearable v-model="form.model[key]" v-bind="item" v-on="{ ...item.on }">
-                  <el-option v-for="options in item.options" v-bind="{
-                    value: options.value,
-                    label: options.label
-                  }" v-on="{ ...item.on }">
+                <el-select clearable v-model="form.model[key]" v-bind="{placeholder: '请输入' + item.label, ...item.options}" v-on="{ ...item.on }">
+                  <el-option v-for="options in item.options.options" v-bind="options" v-on="{ ...item.on }">
                     <slot :name="item.type + firstUpperCase(key)" :options="options"></slot>
                   </el-option>
                 </el-select>

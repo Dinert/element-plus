@@ -15,13 +15,11 @@ const props = defineProps({
   // 表格的数据
   table: {
     type: Object,
-    default: () => { }
-  },
-
-  // 表格的列
-  tableColumn: {
-    type: Array,
-    default: () => []
+    default: () => { 
+      return {
+        tableColumn: []
+      }
+    }
   },
 
   // 是否显示操作
@@ -35,6 +33,19 @@ const props = defineProps({
     type: Object,
     default: () => { }
   },
+
+  tableSlot: {
+    type: Boolean,
+    default: true
+  },
+  form: {
+    type: Object,
+    default: () => {}
+  },
+
+  disabled: {
+    type: Boolean,
+  }
 })
 
 // emit
@@ -92,6 +103,7 @@ const currentChange = (value) => {
       formItem,
       form: {
         model: formValue,
+        ...form
       }
     }">
       <template #search>
@@ -99,7 +111,7 @@ const currentChange = (value) => {
         <el-button type="default" @click="reset(formValue, defaultValue, search)">重置</el-button>
       </template>
     </d-form>
-    <d-table v-bind="{ table, tableColumn, pagination, tableSlot: false }" v-on="{
+    <d-table v-bind="{ table, pagination, tableSlot: false }" v-on="{
       sizeChange,
       currentChange
     }">
@@ -107,11 +119,14 @@ const currentChange = (value) => {
         <slot name="header-left"></slot>
       </template>
       <template #default="scope">
-        <slot v-bind="scope" :name="columnProp(scope.prop)"></slot>
+        <template v-if="tableSlot">
+          <slot v-bind="scope" :name="columnProp(scope.prop)"></slot>
+        </template>
+        <template v-else>
+          <slot v-bind="scope"></slot>
+        </template>
       </template>
-      <template #tableColumnAfter>
-        <slot name="tableColumnAfter"></slot>
-      </template>
+
     </d-table>
   </section>
 </template>

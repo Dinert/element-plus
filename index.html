@@ -41,8 +41,8 @@
 <body>
   <div id="app">
     <!-- <d-table v-bind="{tableColumn}"></d-table> -->
-    <d-table-page v-bind="{formItem, tableColumn, table: {data: tableData}}" @search="search">
-      <template #column_type>{{'aaaaaaaaaa'}}</template>
+    <d-table-page v-bind="{formItem, table: {data: tableData, tableColumn}}" @search="search">
+      <template #column_type>{{'aaaaaa'}}</template>
       <template #header-left>
         aaa
       </template>
@@ -63,6 +63,18 @@
     data() {
       return {
         tableColumn: [
+          {
+            type: 'selection',
+            label: '选择',
+            align: 'center',
+            width: '80px'
+          },
+          {
+            type: 'index',
+            label: '序号',
+            width: '80px',
+            align: 'center'
+          },
           {
             prop: 'type',
             label: '窗口类型',
@@ -111,13 +123,15 @@
           type: {
             type: 'select',
             label: '窗口类型',
-            options: [
-              { value: '一口受理', label: '一口受理' },
-              { value: '综合窗口', label: '综合窗口' },
-              { value: '企业帮办', label: '企业帮办' },
-              { value: '专窗', label: '专窗' },
-              { value: '咨询台', label: '咨询台' },
-            ],
+            options: {
+              options: [
+                { value: '一口受理', label: '一口受理' },
+                { value: '综合窗口', label: '综合窗口' },
+                { value: '企业帮办', label: '企业帮办' },
+                { value: '专窗', label: '专窗' },
+                { value: '咨询台', label: '咨询台' },
+              ]
+            },
           },
           name: {
             type: 'input',
@@ -130,10 +144,12 @@
           enable: {
             type: 'select',
             label: '大屏显示afdsafdafasfdasaaaa',
-            options: [
-              { value: true, label: '显示' },
-              { value: false, label: '隐藏' },
-            ]
+            options: {
+              options: [
+                { value: true, label: '显示' },
+                { value: false, label: '隐藏' },
+              ]
+            }
           }
         }
       }
