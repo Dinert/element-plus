@@ -15,7 +15,7 @@ const props = defineProps({
   // 表格的数据
   table: {
     type: Object,
-    default: () => { 
+    default: () => {
       return {
         tableColumn: []
       }
@@ -38,49 +38,44 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+
+  // form表单
+  colLayout: {
+    type: Object,
+    default: () => { },
+  },
+
   form: {
     type: Object,
-    default: () => {}
+    default: () => { 
+      return {
+        model: {},
+        on: {}
+      }
+    }
   },
 
   disabled: {
     type: Boolean,
+  },
+
+  showHeader: {
+    type: Boolean,
+    default: true
+  },
+  showSearch: {
+    type: Boolean,
+    default: true
   }
 })
 
 // emit
-const emit = defineEmits(['search', 'currentChange', 'sizeChange'])
-
-// Mounted
-
-// ref
-
-// data
-const formValue = reactive(getFormValue(props.formItem))
-const defaultValue = reactive(getFormValue(props.formItem))
-
-// computed
-
-// methods
-// 查询
-const search = (formValue) => {
-  let tempObj = filterNullStrUndefind(formValue)
-  emit('search', tempObj)
-}
-
-// 重置
-const reset = (formValue, defaultValue, search) => {
-  for (const prop in defaultValue) {
-    formValue[prop] = defaultValue[prop]
-  }
-  typeof search === 'function' && search(formValue)
-}
+const emit = defineEmits(['currentChange', 'sizeChange'])
 
 // column的prop
 const columnProp = (prop) => {
   return 'column_' + prop
 }
-
 
 // 当前页条数
 const sizeChange = (value) => {
@@ -102,16 +97,15 @@ const currentChange = (value) => {
     <d-form ref="searchForm" v-bind="{
       formItem,
       form: {
-        model: formValue,
         ...form
-      }
-    }">
+      },
+      colLayout
+    }" v-if="showSearch">
       <template #search>
-        <el-button type="primary" @click="search(formValue)">查询</el-button>
-        <el-button type="default" @click="reset(formValue, defaultValue, search)">重置</el-button>
+        <slot name="search"></slot>
       </template>
     </d-form>
-    <d-table v-bind="{ table, pagination, tableSlot: false }" v-on="{
+    <d-table v-bind="{ table, pagination, tableSlot: false, showHeader }" v-on="{
       sizeChange,
       currentChange
     }">

@@ -1,6 +1,6 @@
 {
   "name": "@dinert/element-plus",
-  "version": "0.3.6-beta.14",
+  "version": "0.3.6-beta.15",
   "description": "基于vue3封装的element-plus包",
   "main": "dist/bundle.cjs.js",
   "module": "dist/bundle.esm.js",

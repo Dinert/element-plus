@@ -15,7 +15,12 @@ const props = defineProps({
   },
   form: {
     type: Object,
-    default: () => { }
+    default: () => {
+      return {
+        model: {},
+        on: {}
+      }
+    }
   },
   row: {
     type: Object,
@@ -85,11 +90,10 @@ const labelMounseEnter = (index, form) => {
   const tooltipEl = setFormArr[index].$el.querySelector('.label-tooltip')
   const labelMaxWidth = parseInt(window.getComputedStyle(labelEl, null).getPropertyValue('max-width'))
   const tooltipWidth = parseInt(window.getComputedStyle(tooltipEl, null).getPropertyValue('width'))
-  if(tooltipWidth > labelMaxWidth ) {
+  if (tooltipWidth > labelMaxWidth) {
     form.labelTooltip = false
-  }else {
+  } else {
     form.labelTooltip = true
-
   }
 }
 
@@ -118,6 +122,19 @@ const getTooltipValue = (value, form) => {
   }
 }
 
+// 更改日期组件显示的placeholder
+const datePickerPlaceholder = (label, item) => {
+  const type = item.type;
+  if (["week"].includes(type)) {
+    return "周";
+  } else if (["month", "monthrange"].includes(type)) {
+    return "月份";
+  } else if (["year", "yearrange"].includes(type)) {
+    return "年份";
+  }
+  return "时间";
+}
+
 // expose
 defineExpose({
   formRef
@@ -144,7 +161,7 @@ defineExpose({
               placement: 'top',
               disabled: item.labelTooltip
             }">
-            <span class="label-text" @mouseenter="labelMounseEnter(index, item)">{{ item['label'] }}</span>
+              <span class="label-text" @mouseenter="labelMounseEnter(index, item)">{{ item['label'] }}</span>
             </el-tooltip>
           </template>
           <el-tooltip v-bind="{
@@ -155,10 +172,12 @@ defineExpose({
             <div @mouseenter="mouseEnter(index, item)">
               <span class="temp-tooltip">{{ getTooltipValue(form.model[key], item) }}</span>
               <template v-if="['input'].includes(item.type)">
-                <el-input clearable v-model="form.model[key]" v-bind="{placeholder: '请输入' + item.label, ...item.options}" v-on="{ ...item.on }"></el-input>
+                <el-input clearable v-model="form.model[key]"
+                  v-bind="{ placeholder: '请输入' + item.label, ...item.options }" v-on="{ ...item.on }"></el-input>
               </template>
               <template v-else-if="['select'].includes(item.type)">
-                <el-select clearable v-model="form.model[key]" v-bind="{placeholder: '请输入' + item.label, ...item.options}" v-on="{ ...item.on }">
+                <el-select clearable v-model="form.model[key]"
+                  v-bind="{ placeholder: '请选择' + item.label, ...item.options }" v-on="{ ...item.on }">
                   <el-option v-for="options in item.options.options" v-bind="options" v-on="{ ...item.on }">
                     <slot :name="item.type + firstUpperCase(key)" :options="options"></slot>
                   </el-option>
@@ -166,7 +185,15 @@ defineExpose({
               </template>
               <template
                 v-else-if="['datetime', 'date', 'week', 'month', 'year', 'datetimerange', 'daterange', 'monthrange', 'yearrange'].includes(item.type)">
-                <el-date-picker clearable v-model="form.model[key]" v-bind="item" v-on="{ ...item.on }">
+                <el-date-picker clearable v-model="form.model[key]" v-bind="{
+                  placeholder:
+                    '请选择' + datePickerPlaceholder(item.label, item),
+                  startPlaceholder:
+                    '开始' + datePickerPlaceholder(item.label, item),
+                  endPlaceholder:
+                    '结束' + datePickerPlaceholder(item.label, item), 'unlink-panels': true, ...item.options
+                }"
+                  v-on="{ ...item.on }">
                 </el-date-picker>
               </template>
             </div>
@@ -276,7 +303,8 @@ defineExpose({
       text-overflow: ellipsis;
       max-width: 80px;
     }
-    &::v-deep(.label-tooltip){
+
+    &::v-deep(.label-tooltip) {
       position: absolute;
       left: -99999999999px;
       z-index: 9999999999;
